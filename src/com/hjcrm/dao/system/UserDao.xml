@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjcrm.dao.system.UserDao">
+	<!--判断email是否存在-->
+    <select id="selectUserByEmail" parameterType="string" resultType="User">
+		select * from hj_user where email =#{email}
+	</select>
+	<!--登录-->
+    <select id="login" parameterType="user" resultType="User">
+		select * from hj_user where email =#{email} and password =md5(#{password})
+	</select>
+	<!--查询所有-->
+    <select id="queryAllUserInfo" parameterType="com.hjcrm.constants.util.PageBean" resultType="User">
+		select *,d.deptname from hj_user u
+		join hj_dept d on(u.deptid=d.deptid)
+		   limit #{currentPage}, #{pageSize};
+	</select>
+	<select id="queryMenuByRoleId" parameterType="hashmap" resultType="menu">
+		 select DISTINCT(m.menuid),m.menuparaid,menuname,m.menuurl,m.menuimgurl from hj_role r
+          LEFT JOIN hj_role_menu rm on r.roleid = rm.roleid
+          left join hj_menu m on m.menuid = rm.menuid
+          <where>
+              <if test="roleid!=null and roleid!=''">
+                  r.roleid=#{roleid}
+              </if>
+              <if test="menuparaid!=null and menuparaid!=''">
+                  and m.menuparaid=#{menuparaid}
+              </if>
+          </where>
+	</select>
+	<select id="queryAllUserInfoCount" resultType="int">
+		select count(*) from hj_user;
+	</select>
+	<!--删除用户-->
+	<delete id="deleteUser" parameterType="java.util.List">
+		delete from hj_user where userid in
+		<foreach collection="list" item="id" open="(" separator="," close=")">/*separator表示在每次进行迭代之间以什么符号作为分隔符*/
+			#{id}
+		</foreach>
+	</delete>
+	<!--修改密码-->
+	<update id="editPassword" parameterType="hashmap">
+		update hj_user set password=md5(#{newPassword}) where userid=#{userid}
+	</update>
+	<!--添加-->
+    <insert id="saveOrUpdate" parameterType="user">
+		insert into hj_user(username,password,email,phone,mobile,sex,deptgroup,deptid,roleid,state,note) values
+		(#{username},md5(123123),#{email},#{phone},#{mobile},#{sex},#{deptgroup},#{deptid},#{roleid},#{state},#{note});
+	</insert>
+	<!--修改-->
+	<update id="saveOrUpdates" parameterType="user">
+		update hj_user set
+		username=#{username},password=md5(#{password}),email=#{email},phone=#{phone},mobile=#{mobile},sex=#{sex},deptgroup=#{deptgroup},deptid=#{deptid},roleid=#{roleid},state=#{state},note=#{note}
+		where userid=#{userid};
+	</update>
+
+
+	<select id="queryUserInfoById" parameterType="int" resultType="User">
+		select * from hj_user u
+		   where u.userid=#{userid};
+	</select>
+</mapper>

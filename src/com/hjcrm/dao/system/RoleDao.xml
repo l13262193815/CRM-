@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjcrm.dao.system.RoleDao">
+    <select id="queryRoleByDeptid" resultType="com.hjcrm.bean.Role" parameterType="String">
+        select r.deptid,r.rolename,r.roleid from hj_role r where r.deptid=#{deptid};
+    </select>
+
+    <select id="queryAllRoleInfo" parameterType="com.hjcrm.constants.util.PageBean" resultType="role">
+             select r.roleid,r.rolename,d.deptname,
+GROUP_CONCAT(m.menuname SEPARATOR ',') menuname
+        from hj_role r left join hj_role_menu rm on (r.roleid=rm.roleid)
+                        left join hj_menu m on (m.menuid=rm.menuid)
+                        left join hj_dept d on (r.deptid=d.deptid)
+                        group by r.roleid
+		                limit #{currentPage}, #{pageSize}
+	</select>
+    <!--查询总数-->
+    <select id="queryAllRoleInfoCount" resultType="int">
+		select count(*) from hj_role;
+	</select>
+    <!--添加-->
+    <insert id="addOrUpdateRole" parameterType="role">
+        insert into hj_role(rolename,deptid) values(#{rolename},#{deptid})
+    </insert>
+    <!--修改-->
+    <update id="addOrUpdateRoles" parameterType="role">
+        update hj_role set rolename=#{rolename},deptid=#{deptid} where roleid=#{roleid}
+    </update>
+    <!--删除-->
+    <delete id="deleteRole" parameterType="java.util.List">
+        delete from hj_role where roleid in
+        <foreach collection="list" item="id" open="(" separator="," close=")">/*separator表示在每次进行迭代之间以什么符号作为分隔符*/
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteMenuByroleid" parameterType="string">
+        delete from hj_role_menu where roleid=#{id}
+    </delete>
+    <insert id="changeMenu" parameterType="menu_role">
+        insert into hj_role_menu(roleid,menuid) values(#{roleid},#{menuid})
+    </insert>
+</mapper>

@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjcrm.dao.resource.ResourceDao">
+    <!--查所有创建人-->
+    <select id="queryAllCreatePerson" resultType="user">
+       select * from hj_user u where 1=1 and u.dr = 0 and u.deptid in(2,5,7,8,9,10,11,12,13,14,15,16)
+    </select>
+    <!--查所有销售人员-->
+    <select id="queryAllXiaoShou" resultType="user">
+        select u.userid,u.username from hj_user u where 1=1 and u.dr = 0 and u.deptid in(5,7,8,9,10,11,12,13,14,15,16)
+    </select>
+    <!--查询所有资源-->
+    <select id="queryResource" parameterType="java.util.Map" resultType="resource">
+    select r.belongName,r.resourceLevel,r.firstVisitTime,r.nextVisitTime,r.yunYingNote,r.xiaoShouNote,r.*,u.userid from hj_resource r
+        join hj_user u on r.userid=u.userid
+        where 1=1 and r.dr = 0
+        <if test="deptid != null and deptid == 5 and roleid ==52 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 9 and roleid ==5 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 10 and roleid ==7 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 11 and roleid ==9 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 12 and roleid ==11 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 13 and roleid ==13 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 14 and roleid ==15 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 15 and roleid ==17 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 16 and roleid ==19 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+
+        <if test="deptid != null and deptid == 21 and roleid ==36 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+
+        <if test="deptid != null and deptid == 22 and roleid ==37 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 23 and roleid ==39 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 24 and roleid ==41 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 25 and roleid ==43 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 26 and roleid ==45 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 27 and roleid ==47 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+
+        <if test="deptid != null and deptid == 29 and roleid ==49 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+
+        <if test="deptid != null and deptid == 29 and roleid ==50 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+
+        <if test="deptid != null and deptid == 30 and roleid ==51 and userid!=107">
+            and r.isStudent = 0 and r.userid != 107
+            and (r.source = 11)
+        </if>
+
+        <if test="deptid != null and deptid == 30 and roleid ==51 and userid==107">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+
+        <if test="deptid != null and deptid == 9 and roleid ==4 ">
+            and ( r.userid in(select userid from hj_user where deptid = 9) or r.belongid in (select userid from hj_user where deptid = 9))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 10 and roleid ==6 ">
+            and ( r.userid in(select userid from hj_user where deptid = 10) or r.belongid in (select userid from hj_user where deptid = 10))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 11 and roleid ==8 ">
+            and ( r.userid in(select userid from hj_user where deptid = 11) or r.belongid in (select userid from hj_user where deptid = 11))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 12 and roleid ==10 ">
+            and ( r.userid in(select userid from hj_user where deptid = 12) or r.belongid in (select userid from hj_user where deptid = 12))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 13 and roleid ==12 ">
+            and ( r.userid in(select userid from hj_user where deptid = 13) or r.belongid in (select userid from hj_user where deptid = 13))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 14 and roleid ==14 ">
+            and ( r.userid in(select userid from hj_user where deptid = 14) or r.belongid in (select userid from hj_user where deptid = 14))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 15 and roleid ==16 ">
+            and ( r.userid in(select userid from hj_user where deptid = 15) or r.belongid in (select userid from hj_user where deptid = 15))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 16 and roleid ==18 ">
+            and ( r.userid in(select userid from hj_user where deptid = 16) or r.belongid in (select userid from hj_user where deptid = 16))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 2">
+            and (r.deptid = 2 or (r.deptid in(5,7,8,9,10,11,12,13,14,15,16)  and r.source != 0 and r.source != 11))
+        </if>
+        <if test="resourceId != null">
+            and r.resourceId=#{resourceId}
+        </if>
+        <if test="deptid != null and deptid == 2">
+            group by r.resourceId
+            order by r.create_time desc,r.state
+        </if>
+        <if test="deptid != null and deptid != 2">
+            group by r.resourceId
+            order by r.state,r.create_time desc
+        </if>
+        limit #{currentPage},#{pageSize};
+    </select>
+    <!--查资源总数-->
+    <select id="queryResourceCount" resultType="int">
+        select count(*) total,
+        count(case when r.resourceColor is not null and r.resourceColor  &lt;&gt; '' then 0 end ) xjkhcount,
+        count(case when r.resourceLevel = 'A' then 0 end ) acount,
+        count(case when r.resourceLevel = 'B' then 0 end ) bcount,
+        count(case when r.resourceLevel = 'C' then 0 end ) ccount,
+        count(case when r.resourceLevel = 'D' then 0 end ) dcount,
+        count(case when r.studentstate = 1 then 0 end ) cjcount,
+        count(case when r.state = 1 then 0 end) wclcount,
+        count(case when r.source = 7 then 0 end) zxzxcount,
+        count(case when r.source = 4 then 0 end) dhzxcount,
+        count(case when r.source = 1 then 0 end) kczccount,
+        count(case when r.source = 2 then 0 end) zxzccount,
+        count(case when r.source = 3 then 0 end) appcount,
+        count(case when r.source = 6 then 0 end) xsqdcount,
+        count(case when r.source = 5 then 0 end) jkwzccount,
+        count(case when r.source = 8 then 0 end) dkzycount,
+        count(case when r.source = 9 then 0 end) zxgmcount,
+        count(case when r.source = 10 then 0 end) jxjycount,
+        count(case when r.source = 0 then 0 end) zijiancount,
+        count(case when r.Weixin = 1 then 0 end) weixincount
+        from hj_resource r
+        where 1=1 and r.dr = 0
+        <if test="deptid != null and deptid == 5 and roleid ==52 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 9 and roleid ==5 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 10 and roleid ==7 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 11 and roleid ==9 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 12 and roleid ==11 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 13 and roleid ==13 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 14 and roleid ==15 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 15 and roleid ==17 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 16 and roleid ==19 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+
+
+        <if test="deptid != null and deptid == 21 and roleid ==36 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+
+        <if test="deptid != null and deptid == 22 and roleid ==37 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 23 and roleid ==39 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 24 and roleid ==41 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 25 and roleid ==43 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 26 and roleid ==45 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 27 and roleid ==47 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+
+        <if test="deptid != null and deptid == 29 and roleid ==49 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 29 and roleid ==49 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+        <if test="deptid != null and deptid == 29 and roleid ==50 ">
+            and r.isStudent = 0
+            and ((r.userid = #{userid}) or r.belongid = #{userid})
+        </if>
+
+        <if test="deptid != null and deptid == 9 and roleid ==4 ">
+            and ( r.userid in(select userid from hj_user where deptid = 9) or r.belongid in (select userid from hj_user where deptid = 9))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 10 and roleid ==6 ">
+            and ( r.userid in(select userid from hj_user where deptid = 10) or r.belongid in (select userid from hj_user where deptid = 10))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 11 and roleid ==8 ">
+            and ( r.userid in(select userid from hj_user where deptid = 11) or r.belongid in (select userid from hj_user where deptid = 11))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 12 and roleid ==10 ">
+            and ( r.userid in(select userid from hj_user where deptid = 12) or r.belongid in (select userid from hj_user where deptid = 12))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 13 and roleid ==12 ">
+            and ( r.userid in(select userid from hj_user where deptid = 13) or r.belongid in (select userid from hj_user where deptid = 13))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 14 and roleid ==14 ">
+            and ( r.userid in(select userid from hj_user where deptid = 14) or r.belongid in (select userid from hj_user where deptid = 14))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 15 and roleid ==16 ">
+            and ( r.userid in(select userid from hj_user where deptid = 15) or r.belongid in (select userid from hj_user where deptid = 15))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 16 and roleid ==18 ">
+            and ( r.userid in(select userid from hj_user where deptid = 16) or r.belongid in (select userid from hj_user where deptid = 16))
+            and r.isStudent = 0
+        </if>
+        <if test="deptid != null and deptid == 2">
+            and (r.deptid = 2 or (r.deptid in(5,7,8,9,10,11,12,13,14,15,16)  and r.source != 0))
+        </if>
+    </select>
+    <!--添加资源-->
+    <insert id="addResource" parameterType="resource">
+        insert into hj_resource(createrName,deptid,userid,source,address,resourceName,phone,courseid,resourceLevel,yunYingNote,xiaoShouNote,tel,create_time)
+         values(#{createrName},#{deptid},#{userid},#{source},#{address},#{resourceName},#{phone},#{courseid},#{resourceLevel},#{yunYingNote },#{xiaoShouNote},#{tel}, now())
+    </insert>
+    <insert id="updateResource" parameterType="resource">
+        update hj_resource set
+        createrName=#{createrName},deptid=#{deptid},userid=#{userid},source=#{source},address=#{address},
+        resourceName=#{resourceName},phone=#{phone},courseid=#{courseid},resourceLevel=#{resourceLevel},
+        yunYingNote=#{yunYingNote},xiaoShouNote=#{xiaoShouNote},tel=#{tel} where resourceId=#{resourceId}
+    </insert>
+    <delete id="deleteResources" parameterType="resource">
+        delete from hj_resource where resourceId in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!--分配-->
+    <update id="assignResource" parameterType="resource">
+        update hj_resource set state='1',assignTime=now(),belongid=#{belongid},belongName=#{belongName}
+         where resourceId=#{resourceId}
+    </update>
+    <!--根据resourceid查某一资源-->
+    <select id="queryResourceByResourceId" parameterType="int" resultType="resource">
+        select * from hj_resource where resourceId=#{resourceId}
+   </select>
+    <!--更改资源表中的学员状态-->
+<update id="saveOrUpdate" parameterType="resource">
+    update hj_resource set state='2',studentstate='1'
+    <if test="email!=null and email!=''">
+        , email=#{email}
+    </if>
+    <if test="weixin!=null and weixin!=''">
+        , weixin=#{weixin}
+    </if>
+    <if test="qq!=null and qq!=''">
+        , qq=#{qq}
+    </if>
+    <if test="deptid!=null and deptid!=''">
+        , deptid=#{deptid}
+    </if>
+    <if test="resourceName!=null and resourceName!=''">
+        , resourceName=#{resourceName}
+    </if>
+    <if test="source!=null and source!=''">
+        , source=#{source}
+    </if>
+    <if test="address!=null and address!=''">
+        , address=#{address}
+    </if>
+    <if test="phone!=null and phone!=''">
+        , phone=#{phone}
+    </if>
+    <if test="idCard!=null and idCard!=''">
+        , idCard=#{idCard}
+    </if>
+    <if test="nextVisitTime!=null and nextVisitTime!=''">
+        , nextVisitTime=#{nextVisitTimes}
+    </if>
+    <if test="courseid!=null and courseid!=''">
+        , courseid=#{courseid}
+    </if>
+    <if test="xiaoShouNote!=null and xiaoShouNote!=''">
+        , xiaoShouNote=#{xiaoShouNote}
+    </if>
+    <if test="resourceLevel!=null and resourceLevel!=''">
+        , resourceLevel=#{resourceLevel}
+    </if>
+    <if test="tel!=null and tel!=''">
+        , tel=#{tel}
+    </if>
+    where resourceId=#{resourceId}
+</update>
+</mapper>

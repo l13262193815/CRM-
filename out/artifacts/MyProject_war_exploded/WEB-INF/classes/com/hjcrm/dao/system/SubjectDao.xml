@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjcrm.dao.system.SubjectDao">
+    <select id="querySubject" resultType="subject">
+        select s.subjectid,c.courseName,s.subjectname,s.subjectcode,s.note from hj_subject s
+        join hj_course c on(s.courseid=c.courseid) limit #{currentPage}, #{pageSize};
+    </select>
+    <!--查询总数-->
+    <select id="querySubjectCount" resultType="int">
+		select count(*) from hj_subject;
+	</select>
+   <!-- 添加-->
+    <insert id="addOrUpdateSubject" parameterType="subject">
+        insert into hj_subject(note,courseid,subjectname,subjectcode)
+        values(#{note},#{courseid},#{subjectname},#{subjectcode})
+    </insert>
+<!--  修改-->
+    <update id="addOrUpdateSubjects" parameterType="Subject">
+        update hj_subject set
+        note=#{note},courseid=#{courseid},subjectname=#{subjectname},subjectcode=#{subjectcode} where subjectid=#{subjectid}
+    </update>
+    <!--删除-->
+    <delete id="deleteSubject" parameterType="java.util.List">
+        delete from hj_subject where subjectid in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="querySubjectByCourseid" parameterType="int" resultType="subject">
+        select * from  hj_subject where courseid=#{courseid}
+    </select>
+</mapper>

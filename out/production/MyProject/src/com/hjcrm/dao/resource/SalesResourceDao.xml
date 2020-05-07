@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjcrm.dao.resource.SalesResourceDao">
+    <!--查销售人员Byresourceid-->
+    <select id="queryXiaoShouByRoleid" resultType="string">
+        select * from hj_resource where deptid=#{deptid};
+    </select>
+    <!--根据resourceId查回访记录表-->
+    <select id="queryVisitrecordsByresourceId" resultType="visitrecord" parameterType="java.util.Map">
+        select vr.create_time,vr.* from hj_visitrecord vr where 1=1 and vr.dr = 0
+        <if test="resourceId != null">
+            and vr.resourceId=#{resourceId}
+        </if>
+        <if test="studentId != null">
+            and vr.studentId=#{studentId}
+        </if>
+    </select>
+    <!--往回访记录表添加数据-->
+    <insert id="insertVisitrecords" parameterType="java.util.Map">
+        insert into hj_visitrecord(resourceId,create_time,visitRecord) values (#{resourceId},now(),#{visitRecord})
+    </insert>
+    <update id="studentCommit" parameterType="java.util.List">
+        update hj_student set studentstate='2' where resourceId in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

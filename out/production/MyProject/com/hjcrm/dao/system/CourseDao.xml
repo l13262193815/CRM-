@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjcrm.dao.system.CourseDao">
+    <select id="queryCourses" resultType="Course">
+        select c.courseid,c.courseTeacherName,c.courseName,c.courseMoney,c.courseDescribe,c.note from hj_course c limit #{currentPage}, #{pageSize};
+    </select>
+    <select id="queryCourse" resultType="Course">
+        select c.courseid,c.courseName from hj_course c ;
+    </select>
+    <!--查询总数-->
+    <select id="queryCourseCount" resultType="int">
+		select count(*) from hj_course;
+	</select>
+   <!-- 添加-->
+    <insert id="addCourse" parameterType="course">
+        insert into hj_course(courseTeacherName,courseName,courseMoney,courseDescribe,note)
+        values(#{courseTeacherName},#{courseName},#{courseMoney},#{courseDescribe},#{note})
+    </insert>
+<!--  修改-->
+    <update id="addCourses" parameterType="course">
+        update hj_course set
+        courseTeacherName=#{courseTeacherName},courseName=#{courseName},courseMoney=#{courseMoney},courseDescribe=#{courseDescribe},note=#{note} where courseid=#{courseid}
+    </update>
+    <!--删除-->
+    <delete id="deleteCourse" parameterType="java.util.List">
+        delete from hj_course where courseid in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="queryCourseById" parameterType="int" resultType="course">
+        select courseName from hj_course where courseid=#{courseid}
+    </select>
+</mapper>

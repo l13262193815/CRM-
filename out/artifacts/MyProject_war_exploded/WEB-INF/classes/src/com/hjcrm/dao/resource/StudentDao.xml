@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjcrm.dao.resource.StudentDao">
+    <select id="queryStudents" parameterType="java.util.Map" resultType="student">
+        select uu.username customerName,s.*,u.username belongName,(s.dealprice + s.netedumoney) sumPayMoney from
+        hj_student s
+        left join hj_user u on u.userid = s.belongid
+        left join hj_user uu on uu.userid = s.customerId
+        where 1=1 and s.dr = 0
+        <if test="studentId != null">
+            and s.studentId=#{studentId}
+        </if>
+        <if test="belongid != null">
+            and s.belongid=#{belongid}
+        </if>
+        <if test="deptid != null and deptid == 4">
+            and s.studentstate = 2
+        </if>
+        <if test="studentIds != null and studentIds != ''">
+            <![CDATA[and studentId in(${studentIds})]]>
+        </if>
+        limit #{currentPage},#{pageSize};
+    </select>
+    <!--往student表中添加数据-->
+    <insert id="saveOrUpdate" parameterType="student">
+              insert into hj_student(userid,resourceId,courseid,dealtime,dealprice,isOnlineBuy,ishavenetedu,netedumoney,preferinfo,remituser,source,
+        idCard,email,phone,tel,weixin,qq,address,xiaoShouNote,resourceLevel,belongid,studentName,create_time,studentstate)
+        values(#{userid},#{resourceId},#{courseid},#{dealtime},#{dealprice},#{isOnlineBuy},#{ishavenetedu},#{netedumoney},#{preferinfo},#{remituser},
+        #{source},#{idCard},#{email},#{phone},#{tel},#{weixin},#{qq},#{address},#{xiaoShouNote},#{resourceLevel},#{belongid},#{studentName},now(),'3')
+    </insert>
+    <update id="returnStudent" parameterType="java.util.List">
+        update hj_student set studentstate='8' where resourceId in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjcrm.dao.patter.PatterDao">
+    <!--查询场景名称-->
+    <select id="queryPattertype" parameterType="patter" resultType="pattertype">
+        select
+            pt.patterTypeId,pt.patterTypeName,pt.courseid,pt.create_id,pt.create_time,pt.update_id,pt.update_time,pt.dr
+            from hj_pattertype pt where pt.dr = 0
+             and pt.courseid = #{courseid}
+    </select>
+    <!--查询话术内容-->
+    <select id="queryPatter" parameterType="patter" resultType="patter">
+        select
+            p.patterid,p.userid,p.roleid,p.courseid,p.patterTypeId,p.contentTypeId,p.shortTitle,
+            p.content,p.create_time,p.update_time,p.update_id,p.isshare,p.note,p.dr,u.username username from hj_patter p
+		    left join hj_user u on u.userid = p.userid
+		    where p.dr = 0
+		 	and p.patterTypeId = #{patterTypeId}
+			and (p.isshare = 1 or (p.isshare = 0 and p.userid = #{userid}))
+    </select>
+    <!--添加-->
+    <insert id="saveOrUpdatePatter" parameterType="patter">
+        insert into hj_patter(userid,roleid,patterTypeId,courseid,patterid,shortTitle,content) values(#{userid},#{roleid},#{patterTypeId},#{courseid},#{patterid},#{shortTitle},#{content})
+    </insert>
+    <!--修改-->
+    <update id="saveOrUpdatePatters" parameterType="patter">
+        update hj_patter set userid=#{userid},shortTitle=#{shortTitle},content=#{content} where patterid=#{patterid}
+    </update>
+    <!--删除-->
+    <delete id="deletePatter">
+        delete from hj_patter where patterid =#{patterids}
+        and userid=#{userid}
+    </delete>
+    <!--分享-->
+    <update id="updatePatterIsShare" parameterType="string">
+        update hj_patter set isshare='1' where patterid=#{patterid}
+    </update>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjcrm.dao.resource.ExecutiveDao">
+    <select id="queryxzCustoms" resultType="matchinfo">
+        select * from hj_student;
+    </select>
+    <select id="queryAllCustoms" resultType="matchinfo">
+        select * from hj_student;
+    </select>
+    <select id="queryYesStudentMatchinfo" resultType="matchinfo">
+        select * from hj_student;
+    </select>
+</mapper>
